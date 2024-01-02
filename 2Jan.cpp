@@ -30,7 +30,34 @@ public:
     }
 };
 
-
-// Time Complexity : O(n*f)  where f is the maximum frequency of any element  
+// My approach - brute force 
+// Time Complexity: O(n*f)  where f is the maximum frequency of any element  
 
 // Space Complexity : O(n)      
+
+
+
+// editorial solution - optimized in O(N) time
+
+class Solution {
+public:
+    vector<vector<int>> findMatrix(vector<int>& nums) {
+        vector<int> freq(nums.size()+1);
+
+        vector<vector<int>> ans;
+
+        for(int c: nums){
+            if(freq[c]>= ans.size()){
+                ans.push_back({});
+            }
+            ans[freq[c]].push_back(c);
+            freq[c]++;
+        }   
+
+        return ans;
+    }
+};
+
+// logic - it is a simple fact that we need array size as the max frequency of any element so initialized into ans array according to the frequency
+// Time complexity -> O(n) single pass
+// Space Complexity -> O(n) 
