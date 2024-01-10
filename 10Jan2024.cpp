@@ -3,21 +3,21 @@
 // logic -> //  breadth first search 
             //  but intially storing parents pointers for the purpose of bfs
 
+
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
  *     int val;
  *     TreeNode *left;
  *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-
-
 class Solution {
 public:
-
-    void markparent(map<TreeNode*,TreeNode*> &parent,TreeNode* root){
+ void markparent(map<TreeNode*,TreeNode*> &parent,TreeNode* root){
         queue<TreeNode*> q;
 
         q.push(root);
@@ -36,21 +36,35 @@ public:
             }
 
         }
-
-        
+ }
+    void inorder(TreeNode*p ,TreeNode* &target, int start){
+        if(p==NULL){
+            return ;
+        }
+        else{
+            inorder(p->left,target,start);
+             if(p->val==start){
+                 target = p;
+             }
+            inorder(p->right,target,start);
+        }
     }
-    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+    
+    
+    int amountOfTime(TreeNode* root, int start) {
         map<TreeNode*,TreeNode*> parent;
         markparent(parent,root);
+        
+        TreeNode *target;
+        inorder(root,target,start);
 
         map<TreeNode*,bool> visited;
-        int dist  =0;
+        int dist  = 0;
         queue<TreeNode*> q;
         q.push(target);
         visited[target] = true;
 
         while(!q.empty()){
-            if(dist==k)break;
 
             int sz = q.size();
             dist++;
@@ -74,16 +88,9 @@ public:
             }
         }
 
-        vector<int> ans;
+        return --dist;
 
-        while(!q.empty()){
-            ans.push_back(q.front()->val);
-            q.pop();
-        }
-
-        return ans;
     }
-
 };
 
 
