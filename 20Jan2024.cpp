@@ -6,7 +6,8 @@
 
 		//left[i]: the index of the first smaller element to the left of arr[i]
 		//right[i]: the index of the first element that is less than or equal to arr[i] to the right
-		//          With left[i] and right[i] determined, the number of subarrays in which arr[i] is 				the minimum can be calculated by (i - left[i]) * (right[i] - i).
+		//          With left[i] and right[i] determined, the number of subarrays in which arr[i] is 				
+			  the minimum can be calculated by (i - left[i]) * (right[i] - i).
 
 class Solution {
 public:
