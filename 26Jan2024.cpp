@@ -1,6 +1,7 @@
 //https://leetcode.com/problems/out-of-boundary-paths/description/
 // logic - try all possible path using dp
 
+//memoization
 class Solution {
 public:
     using ll =long long ;
@@ -34,7 +35,40 @@ public:
 					// recursion stack space + auxiliary space
 
 
+// tabulation
+class Solution {
+public:
+    int findPaths(int m, int n, int N, int x, int y) {
+        const int M = 1000000007;
+        vector<vector<vector<long long>>> dp(m, vector<vector<long long>>(n, vector<long long>(N + 1, 0)));
+        dp[x][y][0] = 1;
+        long long count = 0;
 
+        for (int moves = 1; moves <= N; moves++) {
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (i == m - 1) count = (count + dp[i][j][moves - 1]) % M;
+                    if (j == n - 1) count = (count + dp[i][j][moves - 1]) % M;
+                    if (i == 0) count = (count + dp[i][j][moves - 1]) % M;
+                    if (j == 0) count = (count + dp[i][j][moves - 1]) % M;
+
+                    dp[i][j][moves] = (
+                        ((i > 0 ? dp[i - 1][j][moves - 1] : 0) % M + (i < m - 1 ? dp[i + 1][j][moves - 1] : 0)) % M +
+                        ((j > 0 ? dp[i][j - 1][moves - 1] : 0) % M + (j < n - 1 ? dp[i][j + 1][moves - 1] : 0)) % M
+                    ) % M;
+                }
+            }
+        }
+
+        return count;
+    }
+};
+//Time Complexity - O(N*M*maxMove);
+//Space Complexity - O(N*M*maxMove); (only auxiliary space)
+
+
+
+//tabulation with space optimization
 class Solution {
 public:
     int findPaths(int m, int n, int N, int x, int y) {
@@ -66,6 +100,5 @@ public:
     }
 };
 
-
 //Time Complexity - O(N*M*maxMove);
-//Space Complexity - O(N*M*maxMove); (only auxiliary space)
+//Space Complexity - O(N*M); (only auxiliary space)
