@@ -125,3 +125,49 @@ public:
 
 // Time complexity - O(n*n)
 // Space complexity - O(1);
+
+//O(N) using Manacher's Algorithm 
+
+class Solution {
+public:
+    int countSubstrings(string input) {
+        int n = input.size();
+        string s = "$";
+        for(char c: input){
+            s+=c;
+            s+="$";
+        }
+        int ans = n;
+        int right = 0;
+        int center = 0;
+
+        vector<int> r(s.size(),0);
+
+        for(int i = 1; i<s.size()-1; i++){
+            if(right >= i){
+                r[i] = min(right-i,r[center-(i-center)]);
+            }
+            else{
+                r[i] = 1;
+            }
+
+            while(i-r[i]>=0 && i+r[i]<s.size() && s[i-r[i]]==s[i+r[i]]){
+                r[i]++;
+            }
+            r[i]--;
+
+            if(i+r[i]>right){
+                right= i+r[i];
+                center = i;
+            }
+
+            ans+= r[i]/2;
+
+        }
+
+        return ans;
+    }
+};
+
+// Time complexity - O(n)
+// Space complexity - O(n);
